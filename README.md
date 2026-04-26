@@ -62,7 +62,6 @@ tarini/
 ├── MainComponent.h/.cpp
 ├── DroneVoice.h/.cpp
 └── Tarini.jucer
-
 ```
 
 The `Theory/` directory contains the primary source material underpinning Tarini's musical architecture — classical Sanskrit treatises and sruti research that inform the tuning systems, harmonic decisions, and therapeutic application layer. This is not background reading; it is the design specification.
@@ -107,29 +106,36 @@ Open `Tarini.jucer` in Projucer, export to your target IDE, and build. Targets: 
 ## Roadmap
 
 ### Stage 1 — Real-time DSP foundation *(current)*
-- Additive synthesis drone engine
-- LFO modulation and bandpass resonance
-- Stereo imaging
-- JUCE GUI with tonic and gain control
+- Additive synthesis drone engine in JUCE C++
+- LFO modulation and bandpass body resonance simulation
+- Stereo imaging across four string voices
+- Desktop GUI with tonic frequency and master gain control
 
 ### Stage 2 — Musical intelligence layer
-- Raga-specific tuning systems (just intonation, shruti variants)
+- Raga-specific tuning systems (just intonation, sruti variants per raga)
 - MIDI input and real-time tonic tracking
 - Harmonic analysis and adaptive drone modulation
-- Microtonal intonation support
+- Microtonal intonation and raga time-of-day scheduling
 
 ### Stage 3 — Embedded and plugin targets
-- ARM Cortex-M/A port of the DSP core in bare-metal Embedded C
-- Fixed-point arithmetic optimisation for microcontroller targets
+- DSP core ported to bare-metal Embedded C for ARM Cortex-M/A
+- Fixed-point arithmetic optimisation for microcontroller deployment
 - VST3 / AU plugin build via JUCE plugin architecture
-- SIMD optimisation for desktop targets
-- Lock-free parameter queue for real-time safe UI communication
+- SIMD optimisation, lock-free parameter queues, USB/SPI/I2C peripheral integration
+- Standalone hardware instrument — no laptop, stage and studio ready
 
 ### Stage 4 — Intelligent generative system
+- Deep learning fusion of Indian classical principles with contemporary genres
 - Raga recommendation and mood-adaptive drone modulation
-- Deep learning fusion of Indian classical principles with contemporary production styles (Trap, EDM, Ambient)
-- Therapeutic application — Raga therapy targeting specific psychological states
-- DAW integration via MIDI output compatible with Logic Pro, Ableton, and others
+- Therapeutic application grounded in the Natya Shastra Rasa framework
+- DAW integration via MIDI output
+
+### Stage 5 — Live performance and mass-meditation deployment
+- Real-time performer tracking — pitch detection from live instrument or voice
+- Audience-responsive harmonic and rhythmic modulation
+- Spatial and ambisonics rendering for large venue PA systems
+- DMX / OSC bridge for synchronised lighting and visual output
+- Mass-meditation mode — autonomous, time-of-day aware, Rasa-guided generative state
 
 ---
 
