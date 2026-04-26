@@ -1,75 +1,210 @@
-# Bhairagini AI
+# Tarini
 
-****PLEASE NOTE: This project is still in progress, files are in the process of being uploaded as we speak. Please check other available projects on this [link.](https://github.com/HarryLMoss) Thank you for your patience.***
+> *"She who carries across."* — From the Sanskrit root *tara*, to transcend.
 
-## Overview
-Bhairagini AI is an innovative project blending the timeless principles of Indian classical music, as outlined in the Sangita Ratnakara and Natya Shastra, with contemporary, modern music genres. This AI-driven system generates therapeutic music, adhering to rules and guidelines from Indian classical music theory, tailoured for modern listeners through genres like Trap, EDM, Rock, Pop, Hip-hop, and Ambient. The scope of this project is to bridge the gap between both modern and classical music therapy with current trends in AI/ML.
+Tarini is a real-time generative drone engine built in **C++ with the JUCE framework**, implementing DSP fundamentals drawn from Indian classical music theory — specifically the tuning systems, harmonic structures, and resonance principles of the Tanpura and Shruti drone traditions.
 
-## Features
-- **Genre Fusion**: Seamlessly combines Indian classical music with contemporary genres to produce unique therapeutic compositions.
-- **Therapeutic Focus**: Leverages the science of Raga therapy, using specific Ragas to target specific psycological and even physiological ailments.
-- **Dynamic MIDI Output**: Generates MIDI files compatible with major DAWs, enabling easy integration into music production workflows.
-
-## Technologies Used
-- Python for AI model development and orchestration.
-- C++ and the JUCE framework for real-time audio processing and MIDI generation.
-- GPT-4 for automated data analysis and understanding musical principles from ancient texts.
-- Docker for containerisation and easy deployment.
-
-## How It Works
-1. **Data Analysis**: Utilises GPT-4 to extract and summarise musical principles from Sangita Ratnakara and Natya Shastra.
-2. **Model Training**: Leverages deep learning to fuse traditional and contemporary music elements based on extracted principles.
-3. **Music Generation**: Generates MIDI sequences in real-time, adhering to the selected fusion genre and therapeutic guidelines.
-4. **DAW Integration**: MIDI output is compatible with DAWs like Logic Pro for further manipulation and production.
-
-## Installation
-Instructions on setting up the project locally, including environment setup, dependencies, and running the application.
-
-Clone this repository to get started with Bhairagini AI. Ensure you have Python 3.8+ and pip installed.
-```bash
-git clone https://github.com/harrylmoss/bhairagini-ai.git
-cd bhairagini-ai
-pip install -r requirements.txt
-```
-
-## Usage
-Step-by-step guide on how to use Bhairagini AI, including generating music, selecting genres, and exporting MIDI files.
-
-## Contributing
-Contributions to improve Bhairagini AI are welcome. Please follow these steps to contribute:
-
-- Fork the repository.
-- Create a new branch (git checkout -b feature-branch).
-- Commit your changes (git commit -am 'Add some feature').
-- Push to the branch (git push origin feature-branch).
-- Create a new Pull Request.
-
-## License
-This project is licensed under the GNU General Public License v3.0 - see the LICENSE file for details.
-
-## Acknowledgements
-I am grateful for the support and contributions from various individuals and organisations that made the "Bhairagini AI" project possible:
-
-- **The spaCy Team**, for their natural language processing library, essential in the textual analysis and information extraction phases of our project.
-- **The PyMuPDF Team**, whose library facilitated the conversion of our source texts from PDF to a processable format.
-- **OpenAI**, for the GPT models that inspired aspects of our machine learning approach.
-- **The JUCE Framework Team**, for their audio processing and GUI library, critical in developing our real-time music generation capabilities.
-- **The Python Community**, for their extensive resources and forums, which were invaluable throughout the development process.
-- **The C++ Community**, for their shared knowledge and resources on C++ programming, greatly assisting in the technical aspects of our project.
-- **Ancient Scholars of Indian Classical Music**:
-  - **Sarangadeva**, credited with the authorship of the Sangita Ratnakara.
-  - **Bharata Muni**, attributed with the Natya Shastra, a foundational work on Indian performing arts.
-  - **Narada**, associated with the Naradiya Shiksha, which contributes significantly to the understanding of music and phonetics in Indian classical tradition.
-
-Special thanks also to all open-source projects and developers for making their resources available, supporting innovative endeavors like this.
-
-## Contact
-For any inquiries or collaboration requests, please contact me at harrymoss33@gmail.com.
-
-Other AI/Digital Signal Processing projects can be found on my [GitHub Profile](https://github.com/HarryLMoss)
+This is **Stage 1 of a larger embedded and desktop audio architecture**, intentionally designed from the ground up with real-time audio constraints, clean DSP implementation, and embedded-style thinking. The project bridges the acoustic principles documented in the *Sangita Ratnakara* and *Natya Shastra* with modern audio engineering practice.
 
 ---
 
-This project is a testament to the fusion of ancient musical wisdom with cutting-edge AI technology, aiming to revolutionise how we experience and use music for both therapy and enjoyment.
+## Overview
 
-© 2024 Harry Moss. All Rights Reserved.
+Tarini generates a continuous, harmonically rich drone based on Tanpura tuning — four strings tuned to SA, PA, SA (upper octave), and a detuned SA for organic chorus. The system uses additive synthesis, LFO-based pitch modulation, bandpass filtering, and stereo imaging to simulate the resonant body of a plucked string instrument in real time.
+
+The architecture is designed to be portable, efficient, and scalable — qualities directly applicable to embedded audio systems running on ARM Cortex platforms with tight latency and memory budgets.
+
+---
+
+## DSP Implementation
+
+The core audio engine (`DroneVoice`) implements:
+
+- **Additive synthesis** — fundamental plus harmonic partials (2nd and 3rd harmonics) modelling the overtone structure of a plucked string
+- **LFO pitch modulation** — subtle sinusoidal drift simulating natural string intonation variation
+- **State Variable TPT Filter** (`juce::dsp::StateVariableTPTFilter`) — bandpass filtered at 900Hz for body resonance simulation
+- **Stereo imaging** — per-string left/right gain matrix to simulate the physical spread of a multi-string instrument
+- **Real-time parameter smoothing** — gain and frequency updates handled safely within the audio callback
+
+All DSP runs inside the JUCE `getNextAudioBlock` callback, respecting real-time audio thread constraints — no heap allocation, no blocking calls, no locks in the hot path.
+
+### Tuning system
+
+```
+String 1:  SA  — tonic (fundamental)
+String 2:  PA  — perfect fifth (tonic × 1.5)
+String 3:  SA' — upper octave (tonic × 2.0)
+String 4:  SA' — upper octave + 1% detune (tonic × 2.0 × 1.01)
+```
+
+This mirrors the authentic Tanpura tuning system, which produces the characteristic *jiva* (shimmer) through interference patterns between the detuned upper strings.
+
+---
+
+## Architecture
+
+```
+tarini/
+│
+├── README.md
+├── LICENSE
+│
+├── Theory/
+│   ├── Doctrine of Shruti.txt
+│   ├── Raga and Timings.xlsx
+│   ├── Research Links
+│   ├── Shruti-Nidarshanam-Sarana Chatushtaya.pdf
+│   ├── Shruti-Veena-Swara-Sthapana.pdf
+│   └── The-Doctrine-of-Shruti-in-Indian-Music.pdf
+│
+└── Source/                        ← Stage 1 JUCE implementation (in progress)
+├── Main.cpp
+├── MainComponent.h/.cpp
+├── DroneVoice.h/.cpp
+└── Tarini.jucer
+
+```
+
+The `Theory/` directory contains the primary source material underpinning Tarini's musical architecture — classical Sanskrit treatises and sruti research that inform the tuning systems, harmonic decisions, and therapeutic application layer. This is not background reading; it is the design specification.
+
+The `DroneVoice` DSP class is intentionally isolated — stateless beyond its own phase accumulators — designed from the outset for portability to bare-metal Embedded C, MATLAB prototyping, or a VST plugin target.
+
+---
+
+## Technologies
+
+| Technology | Usage |
+|---|---|
+| C++ (modern) | Core audio engine and application logic |
+| JUCE Framework | Real-time audio I/O, DSP primitives, GUI |
+| Python | Data analysis, musical principle extraction from source texts |
+| GPT-4 | Automated analysis of Sangita Ratnakara and Natya Shastra |
+| Docker | Containerisation for consistent build environments |
+| CMake | Build system (roadmap) |
+| Git | Version control |
+
+---
+
+## Build & Run
+
+### Requirements
+
+- JUCE 7.x or above
+- C++17 compatible compiler (MSVC, Clang, GCC)
+- Projucer or CMake
+
+### Setup
+
+```bash
+git clone https://github.com/HarryLMoss/tarini.git
+cd tarini
+```
+
+Open `Tarini.jucer` in Projucer, export to your target IDE, and build. Targets: Windows, macOS, Linux.
+
+---
+
+## Roadmap
+
+### Stage 1 — Real-time DSP foundation *(current)*
+- Additive synthesis drone engine
+- LFO modulation and bandpass resonance
+- Stereo imaging
+- JUCE GUI with tonic and gain control
+
+### Stage 2 — Musical intelligence layer
+- Raga-specific tuning systems (just intonation, shruti variants)
+- MIDI input and real-time tonic tracking
+- Harmonic analysis and adaptive drone modulation
+- Microtonal intonation support
+
+### Stage 3 — Embedded and plugin targets
+- ARM Cortex-M/A port of the DSP core in bare-metal Embedded C
+- Fixed-point arithmetic optimisation for microcontroller targets
+- VST3 / AU plugin build via JUCE plugin architecture
+- SIMD optimisation for desktop targets
+- Lock-free parameter queue for real-time safe UI communication
+
+### Stage 4 — Intelligent generative system
+- Raga recommendation and mood-adaptive drone modulation
+- Deep learning fusion of Indian classical principles with contemporary production styles (Trap, EDM, Ambient)
+- Therapeutic application — Raga therapy targeting specific psychological states
+- DAW integration via MIDI output compatible with Logic Pro, Ableton, and others
+
+---
+
+## Musical Foundation
+
+Tarini draws on two foundational texts of Indian classical music theory:
+
+**Sangita Ratnakara** (Sarangadeva, 13th century) — the definitive treatise on Indian music, covering Nada (primordial sound), Sruti (microtonal intervals), Raga classification, and performance theory.
+
+**Natya Shastra** (Bharata Muni) — the ancient Sanskrit text governing performing arts, including the relationship between musical modes, emotional states (Rasa), and their physiological and psychological effects on listeners.
+
+These principles inform the tuning systems, harmonic choices, and therapeutic application layer of the Tarini architecture — not as aesthetic decoration, but as a genuine theoretical framework for generative audio design.
+
+---
+
+## Relevance to Embedded Audio Engineering
+
+The Tarini DSP core is explicitly designed with embedded constraints in mind:
+
+- **No dynamic allocation in the audio path** — all voices pre-allocated and prepared at `prepareToPlay`
+- **Fixed block size processing** — compatible with RTOS audio scheduling
+- **Isolated DSP voice architecture** — `DroneVoice` can be ported to bare-metal C with minimal refactoring
+- **State variable filter implementation** — TPT (Topology-Preserving Transform) design chosen for its numerical stability at low sample rates, directly relevant to embedded targets running at 48kHz or below
+- **Phase accumulator design** — efficient, portable, no lookup tables required
+
+Future stages will target ARM Cortex-M4/M7 platforms, implementing the same algorithms under fixed-point arithmetic with profiled cycle budgets — the core engineering challenge of embedded audio DSP.
+
+---
+
+## Relevance to Audio Plugin Development
+
+The JUCE-based desktop implementation demonstrates:
+
+- Real-time audio callback design (`getNextAudioBlock`)
+- `juce::dsp::ProcessSpec` initialisation and `prepare()` lifecycle
+- `juce::dsp::StateVariableTPTFilter` — professional DSP primitive usage
+- Slider listener pattern and thread-safe parameter updates
+- Cross-platform GUI layout (`paint`, `resized`)
+- Scalable towards VST3 / AU plugin architecture in Stage 3
+
+---
+
+## Contributing
+
+Contributions welcome. Please follow this workflow:
+
+```bash
+# Fork the repository
+git checkout -b feature/your-feature
+git commit -m 'Add feature'
+git push origin feature/your-feature
+# Open a Pull Request
+```
+
+---
+
+## License
+
+GNU General Public License v3.0 — see `LICENSE` for details.
+
+---
+
+## Acknowledgements
+
+- **Sarangadeva** — Sangita Ratnakara
+- **Bharata Muni** — Natya Shastra
+- **Narada** — Naradiya Shiksha
+- **The JUCE Framework Team** — real-time audio infrastructure
+- **The Python and C++ open source communities**
+- **OpenAI** — GPT models used in musical text analysis
+
+---
+
+## Contact
+
+Enquiries and collaboration: harrymoss33@gmail.com
+
+Other audio and DSP projects: [github.com/HarryLMoss](https://github.com/HarryLMoss)
