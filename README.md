@@ -58,10 +58,10 @@ tarini/
 │   └── The-Doctrine-of-Shruti-in-Indian-Music.pdf
 │
 └── Source/                        ← Stage 1 JUCE implementation (in progress)
-├── Main.cpp
-├── MainComponent.h/.cpp
-├── DroneVoice.h/.cpp
-└── Tarini.jucer
+│   ├── Main.cpp
+│   ├── MainComponent.h/.cpp
+│   ├── DroneVoice.h/.cpp
+│   └── Tarini.jucer
 ```
 
 The `Theory/` directory contains the primary source material underpinning Tarini's musical architecture — classical Sanskrit treatises and sruti research that inform the tuning systems, harmonic decisions, and therapeutic application layer. This is not background reading; it is the design specification.
