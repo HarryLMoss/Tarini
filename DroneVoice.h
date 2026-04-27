@@ -1,3 +1,6 @@
+# Author: Harry Moss
+# Date: 29.05.2024
+
 #pragma once
 
 #include <JuceHeader.h>
