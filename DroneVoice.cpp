@@ -1,3 +1,6 @@
+# Author: Harry Moss
+# Date: 29.05.2024
+
 #include "DroneVoice.h"
 
 void DroneVoice::prepare(double sampleRate)
