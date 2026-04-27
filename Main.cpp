@@ -1,3 +1,6 @@
+# Author: Harry Moss
+# Date: 29.05.2024
+
 #include <JuceHeader.h>
 #include "MainComponent.h"
 
