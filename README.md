@@ -49,7 +49,7 @@ tarini/
 ├── README.md
 ├── LICENSE
 │
-├── Theory/
+├── Theory Files/
 │   ├── Doctrine of Shruti.txt
 │   ├── Raga and Timings.xlsx
 │   ├── Research Links
