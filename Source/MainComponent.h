@@ -1,10 +1,16 @@
-# Author: Harry Moss
-# Date: 29.05.2024
+// ==========================================================
+// Author: Harry Moss
+// Date: 29.05.2024
+// ==========================================================
 
 #pragma once
 
 #include <JuceHeader.h>
 #include "DroneVoice.h"
+
+// ==========================================================
+// Main Audio + GUI Component
+// ==========================================================
 
 class MainComponent : public juce::AudioAppComponent,
                       public juce::Slider::Listener
@@ -16,7 +22,8 @@ public:
     void prepareToPlay(int samplesPerBlockExpected,
                        double sampleRate) override;
 
-    void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
+    void getNextAudioBlock(
+        const juce::AudioSourceChannelInfo& bufferToFill) override;
 
     void releaseResources() override;
 
@@ -26,6 +33,7 @@ public:
     void sliderValueChanged(juce::Slider* slider) override;
 
 private:
+
     DroneVoice string1;
     DroneVoice string2;
     DroneVoice string3;
