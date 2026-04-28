@@ -1,8 +1,14 @@
-# Author: Harry Moss
-# Date: 29.05.2024
+// ==========================================================
+// Author: Harry Moss
+// Date: 29.05.2024
+// ==========================================================
 
 #include <JuceHeader.h>
 #include "MainComponent.h"
+
+// ==========================================================
+// Main JUCE Application Class
+// ==========================================================
 
 class TariniApplication : public juce::JUCEApplication
 {
@@ -19,7 +25,7 @@ public:
         return "1.0";
     }
 
-    void initialise (const juce::String&) override
+    void initialise(const juce::String&) override
     {
         mainWindow.reset(new MainWindow(getApplicationName()));
     }
@@ -33,13 +39,17 @@ public:
     {
     public:
         MainWindow(juce::String name)
-            : DocumentWindow(name,
-                             juce::Desktop::getInstance().getDefaultLookAndFeel()
-                                 .findColour(juce::ResizableWindow::backgroundColourId),
-                             juce::DocumentWindow::allButtons)
+            : DocumentWindow(
+                name,
+                juce::Desktop::getInstance()
+                    .getDefaultLookAndFeel()
+                    .findColour(juce::ResizableWindow::backgroundColourId),
+                juce::DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar(true);
+
             setContentOwned(new MainComponent(), true);
+
             centreWithSize(getWidth(), getHeight());
             setVisible(true);
         }
