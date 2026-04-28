@@ -24,7 +24,6 @@ The core audio engine (`DroneVoice`) implements:
 - **LFO pitch modulation** — subtle sinusoidal drift simulating natural string intonation variation
 - **State Variable TPT Filter** (`juce::dsp::StateVariableTPTFilter`) — bandpass filtered at 900Hz for body resonance simulation
 - **Stereo imaging** — per-string left/right gain matrix to simulate the physical spread of a multi-string instrument
-- **Real-time parameter smoothing** — gain and frequency updates handled safely within the audio callback
 
 All DSP runs inside the JUCE `getNextAudioBlock` callback, respecting real-time audio thread constraints — no heap allocation, no blocking calls, no locks in the hot path.
 
@@ -156,7 +155,6 @@ These principles inform the tuning systems, harmonic choices, and therapeutic ap
 The Tarini DSP core is explicitly designed with embedded constraints in mind:
 
 - **No dynamic allocation in the audio path** — all voices pre-allocated and prepared at `prepareToPlay`
-- **Fixed block size processing** — compatible with RTOS audio scheduling
 - **Isolated DSP voice architecture** — `DroneVoice` can be ported to bare-metal C with minimal refactoring
 - **State variable filter implementation** — TPT (Topology-Preserving Transform) design chosen for its numerical stability at low sample rates, directly relevant to embedded targets running at 48kHz or below
 - **Phase accumulator design** — efficient, portable, no lookup tables required
