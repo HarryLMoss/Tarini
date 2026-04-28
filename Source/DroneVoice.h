@@ -1,9 +1,17 @@
-# Author: Harry Moss
-# Date: 29.05.2024
+// ==========================================================
+// Author: Harry Moss
+// Date: 29.05.2024
+// ==========================================================
 
 #pragma once
 
 #include <JuceHeader.h>
+
+// ==========================================================
+// DroneVoice
+//
+// Represents a single continuously sounding drone voice.
+// ==========================================================
 
 class DroneVoice
 {
@@ -12,7 +20,6 @@ public:
 
     void setFrequency(float newFrequency);
     void setGain(float newGain);
-    void setPan(float newPan);
 
     float process();
 
@@ -21,7 +28,6 @@ private:
 
     float frequency = 220.0f;
     float gain = 0.2f;
-    float pan = 0.0f;
 
     float phase = 0.0f;
     float lfoPhase = 0.0f;
