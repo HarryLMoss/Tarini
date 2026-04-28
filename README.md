@@ -65,7 +65,7 @@ tarini/
 
 The `Theory/` directory contains the primary source material underpinning Tarini's musical architecture — classical Sanskrit treatises and sruti research that inform the tuning systems, harmonic decisions, and therapeutic application layer. This is not background reading; it is the design specification.
 
-The `DroneVoice` DSP class is intentionally isolated — stateless beyond its own phase accumulators — designed from the outset for portability to bare-metal Embedded C, MATLAB prototyping, or a VST plugin target.
+The `DroneVoice` DSP class is intentionally isolated — stateless beyond its own phase accumulators — designed from the outset for portability to future embedded audio targets, MATLAB prototyping, or a VST plugin target.
 
 ---
 
@@ -155,7 +155,7 @@ These principles inform the tuning systems, harmonic choices, and therapeutic ap
 The Tarini DSP core is explicitly designed with embedded constraints in mind:
 
 - **No dynamic allocation in the audio path** — all voices pre-allocated and prepared at `prepareToPlay`
-- **Isolated DSP voice architecture** — `DroneVoice` can be ported to bare-metal C with minimal refactoring
+- **Isolated DSP voice architecture** — `DroneVoice` is intentionally isolated for future embedded deployment
 - **State variable filter implementation** — TPT (Topology-Preserving Transform) design chosen for its numerical stability at low sample rates, directly relevant to embedded targets running at 48kHz or below
 - **Phase accumulator design** — efficient, portable, no lookup tables required
 
