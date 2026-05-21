@@ -1,36 +1,42 @@
-// ==========================================================
-// Author: Harry Moss
-// Date: 29.05.2024
-// ==========================================================
+/*
+===============================================================================
+
+    DroneVoice.h
+    Author: Harry Moss
+    Created: 29th May 2024
+
+    Realtime drone voice DSP engine for Tarini.
+    Implements additive synthesis, harmonic partials,
+    modulation, and resonance filtering.
+
+===============================================================================
+*/
 
 #pragma once
 
 #include <JuceHeader.h>
-
-// ==========================================================
-// DroneVoice
-//
-// Represents a single continuously sounding drone voice.
-// ==========================================================
 
 class DroneVoice
 {
 public:
     void prepare(double sampleRate);
 
-    void setFrequency(float newFrequency);
-    void setGain(float newGain);
+    void setFrequency(float f);
+    void setGain(float g);
 
     float process();
 
 private:
-    double currentSampleRate = 44100.0;
-
     float frequency = 220.0f;
     float gain = 0.2f;
 
     float phase = 0.0f;
     float lfoPhase = 0.0f;
+    float lfoIncrement = 0.0f;
+
+    double currentSampleRate = 44100.0;
 
     juce::dsp::StateVariableTPTFilter<float> filter;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(DroneVoice)
 };

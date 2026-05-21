@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 3.22)
 
 project(Tarini VERSION 0.2.0)
 
-set(JUCE_DIR "C:/Users/Harry/Dev/JUCE"
+set(JUCE_DIR "C:/Users/harry/Dev/JUCE"
     CACHE PATH "Path to JUCE source")
 
 add_subdirectory(${JUCE_DIR} JUCE)

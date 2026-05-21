@@ -1,7 +1,14 @@
-// ==========================================================
-// Author: Harry Moss
-// Date: 29.05.2024
-// ==========================================================
+/*
+===============================================================================
+
+    DroneVoice.cpp
+    Author: Harry Moss
+    Created: 29th May 2024
+
+    Realtime drone voice DSP implementation for Tarini.
+
+===============================================================================
+*/
 
 #include "DroneVoice.h"
 
@@ -21,50 +28,47 @@ void DroneVoice::prepare(double sampleRate)
 
     filter.setCutoffFrequency(900.0f);
     filter.setResonance(0.4f);
+
+    // ~0.1Hz sample-rate-independent LFO
+    lfoIncrement =
+        (0.1f / static_cast<float>(sampleRate))
+        * juce::MathConstants<float>::twoPi;
 }
 
-void DroneVoice::setFrequency(float newFrequency)
+void DroneVoice::setFrequency(float f)
 {
-    frequency = newFrequency;
+    frequency = f;
 }
 
-void DroneVoice::setGain(float newGain)
+void DroneVoice::setGain(float g)
 {
-    gain = newGain;
+    gain = g;
 }
 
 float DroneVoice::process()
 {
-    // Organic pitch drift
-
     float lfo = std::sin(lfoPhase) * 0.5f;
 
-    float modulatedFrequency = frequency + lfo;
+    float modFreq = frequency + lfo;
 
-    float phaseIncrement =
-        (modulatedFrequency / (float) currentSampleRate)
+    float phaseInc =
+        (modFreq / static_cast<float>(currentSampleRate))
         * juce::MathConstants<float>::twoPi;
 
-    phase += phaseIncrement;
+    phase += phaseInc;
 
     if (phase > juce::MathConstants<float>::twoPi)
         phase -= juce::MathConstants<float>::twoPi;
 
-    lfoPhase += 0.00003f;
+    lfoPhase += lfoIncrement;
 
     if (lfoPhase > juce::MathConstants<float>::twoPi)
         lfoPhase -= juce::MathConstants<float>::twoPi;
 
-    // Additive harmonic synthesis
+    float s = std::sin(phase);
 
-    float sample = std::sin(phase);
+    s += 0.3f * std::sin(phase * 2.0f);
+    s += 0.15f * std::sin(phase * 3.0f);
 
-    sample += 0.3f * std::sin(phase * 2.0f);
-    sample += 0.15f * std::sin(phase * 3.0f);
-
-    // Resonant filtering
-
-    sample = filter.processSample(sample);
-
-    return sample * gain;
+    return filter.processSample(s) * gain;
 }
