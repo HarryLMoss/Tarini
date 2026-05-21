@@ -1,0 +1,179 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineSystem.cmake:204 (message)"
+      - "CMakeLists.txt:35 (project)"
+    message: |
+      The system is: Windows - 6.2.9200 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:35 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx86/x86/cl.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36244 for x86
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      CMakeCCompilerId.c
+      Microsoft (R) Incremental Linker Version 14.51.36244.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      /out:CMakeCCompilerId.exe 
+      CMakeCCompilerId.obj 
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.obj"
+      
+      The C compiler identification is MSVC, found in:
+        C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/3.26.4/CompilerIdC/CMakeCCompilerId.exe
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:1153 (message)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:221 (CMAKE_DETERMINE_MSVC_SHOWINCLUDES_PREFIX)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:35 (project)"
+    message: |
+      Detecting C compiler /showIncludes prefix:
+        main.c
+        Note: including file: C:\\Users\\harry\\Dev\\Tarini\\build\\JUCE\\tools\\CMakeFiles\\ShowIncludes\\foo.h
+        
+      Found prefix "Note: including file: "
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:35 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx86/x86/cl.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36244 for x86
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      CMakeCXXCompilerId.cpp
+      Microsoft (R) Incremental Linker Version 14.51.36244.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+      
+      /out:CMakeCXXCompilerId.exe 
+      CMakeCXXCompilerId.obj 
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.obj"
+      
+      The CXX compiler identification is MSVC, found in:
+        C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/3.26.4/CompilerIdCXX/CMakeCXXCompilerId.exe
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:1153 (message)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerId.cmake:221 (CMAKE_DETERMINE_MSVC_SHOWINCLUDES_PREFIX)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:35 (project)"
+    message: |
+      Detecting CXX compiler /showIncludes prefix:
+        main.c
+        Note: including file: C:\\Users\\harry\\Dev\\Tarini\\build\\JUCE\\tools\\CMakeFiles\\ShowIncludes\\foo.h
+        
+      Found prefix "Note: including file: "
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:35 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-w01kgj"
+      binary: "C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-w01kgj"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-w01kgj
+        
+        Run Build Command(s):C:/mingw64/bin/ninja.exe -v cmTC_6b511 && [1/2] C:\\PROGRA~1\\MICROS~4\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1451~1.362\\bin\\Hostx86\\x86\\cl.exe  /nologo   /DWIN32 /D_WINDOWS  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_6b511.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_6b511.dir\\ /FS -c C:\\mingw64\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c
+        [2/2] cmd.exe /C "cd . && C:\\mingw64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_6b511.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x86\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x86\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1451~1.362\\bin\\Hostx86\\x86\\link.exe /nologo CMakeFiles\\cmTC_6b511.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_6b511.exe /implib:cmTC_6b511.lib /pdb:cmTC_6b511.pdb /version:0.0 /machine:X86  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "C:/mingw64/share/cmake-3.26/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:35 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-z1ucka"
+      binary: "C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-z1ucka"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/CMakeScratch/TryCompile-z1ucka
+        
+        Run Build Command(s):C:/mingw64/bin/ninja.exe -v cmTC_e1fd4 && [1/2] C:\\PROGRA~1\\MICROS~4\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1451~1.362\\bin\\Hostx86\\x86\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_e1fd4.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_e1fd4.dir\\ /FS -c C:\\mingw64\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp
+        [2/2] cmd.exe /C "cd . && C:\\mingw64\\bin\\cmake.exe -E vs_link_exe --intdir=CMakeFiles\\cmTC_e1fd4.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x86\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100261~1.0\\x86\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1451~1.362\\bin\\Hostx86\\x86\\link.exe /nologo CMakeFiles\\cmTC_e1fd4.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_e1fd4.exe /implib:cmTC_e1fd4.lib /pdb:cmTC_e1fd4.pdb /version:0.0 /machine:X86  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "extras/Build/CMake/JUCEModuleSupport.cmake:63 (try_compile)"
+      - "extras/Build/CMake/JUCEModuleSupport.cmake:75 (_juce_find_target_architecture)"
+      - "CMakeLists.txt:50 (include)"
+    directories:
+      source: "C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/CMakeTmp"
+      binary: "C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/CMakeTmp"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
+    buildResult:
+      variable: "compile_result"
+      cached: true
+      stdout: |
+        Change Dir: C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/CMakeTmp
+        
+        Run Build Command(s):C:/mingw64/bin/ninja.exe -v cmTC_c1ad7 && [1/2] C:\\PROGRA~1\\MICROS~4\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1451~1.362\\bin\\Hostx86\\x86\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_c1ad7.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_c1ad7.dir\\ /FS -c C:\\Users\\harry\\Dev\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
+        FAILED: CMakeFiles/cmTC_c1ad7.dir/juce_runtime_arch_detection.cpp.obj 
+        C:\\PROGRA~1\\MICROS~4\\18\\COMMUN~1\\VC\\Tools\\MSVC\\1451~1.362\\bin\\Hostx86\\x86\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /EHsc  /Zi /Ob0 /Od /RTC1 -MDd /showIncludes /FoCMakeFiles\\cmTC_c1ad7.dir\\juce_runtime_arch_detection.cpp.obj /FdCMakeFiles\\cmTC_c1ad7.dir\\ /FS -c C:\\Users\\harry\\Dev\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp
+        C:\\Users\\harry\\Dev\\JUCE\\extras\\Build\\CMake\\juce_runtime_arch_detection.cpp(52): fatal error C1189: #error:  JUCE_ARCH i386
+        ninja: build stopped: subcommand failed.
+        
+      exitCode: 1
+...

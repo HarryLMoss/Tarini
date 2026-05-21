@@ -36,6 +36,8 @@ target_sources(Tarini PRIVATE
     Source/DroneVoice.cpp
 )
 
+juce_generate_juce_header(Tarini)
+
 target_compile_features(Tarini PRIVATE cxx_std_17)
 
 target_link_libraries(Tarini PRIVATE

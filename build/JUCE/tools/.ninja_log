@@ -1,0 +1,18 @@
+# ninja log v5
+76554	81635	8011004060963107	extras/Build/juceaide/juceaide_artefacts/Custom/juceaide.exe	5c539c1af8d4658f
+79	816	0	C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/cmake.verify_globs	9250fc90e3826730
+918	35976	8011003607890827	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_gui_basics/juce_gui_basics_5.cpp.obj	dcda6d1ee090cd22
+936	76552	8011004013695357	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_graphics/juce_graphics.cpp.obj	e27a4a5a39b0ba26
+1036	2010	8011003268141560	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_core/juce_core_CompilationTime.cpp.obj	7040b67d7cd39cfa
+974	2859	8011003277043573	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_graphics/juce_graphics_Sheenbidi.c.obj	279b1eddcbbc228a
+900	40988	8011003656555934	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_gui_basics/juce_gui_basics_4.cpp.obj	b4c869627a34f62d
+993	24205	8011003489977533	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_events/juce_events.cpp.obj	e30f62c1ccd06b35
+860	32528	8011003572114872	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_gui_basics/juce_gui_basics_2.cpp.obj	848f13d967669685
+955	72163	8011003969797823	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_graphics/juce_graphics_Harfbuzz.cpp.obj	2694a1dfd5ff4535
+820	25283	8011003500942532	extras/Build/juceaide/CMakeFiles/juceaide.dir/Main.cpp.obj	89f39a05b450b99c
+832	25784	8011003506149962	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/juce_build_tools/juce_build_tools.cpp.obj	75c9f6302c0353b
+880	46888	8011003716011711	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_gui_basics/juce_gui_basics_3.cpp.obj	8d76784b44c16b29
+1058	22116	8011003469327251	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_data_structures/juce_data_structures.cpp.obj	ecedad1e28727714
+1017	48620	8011003734338253	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_core/juce_core.cpp.obj	19ef455baa490f9a
+845	53284	8011003780971502	extras/Build/juceaide/CMakeFiles/juceaide.dir/__/__/__/modules/juce_gui_basics/juce_gui_basics.cpp.obj	a0237dd396863c5d
+94	457	0	C:/Users/harry/Dev/Tarini/build/JUCE/tools/CMakeFiles/cmake.verify_globs	9250fc90e3826730
