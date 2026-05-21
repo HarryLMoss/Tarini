@@ -10,7 +10,7 @@ This is **Stage 1 of a larger embedded and desktop audio architecture**, intenti
 
 ## Overview
 
-Tarini generates a continuous, harmonically rich drone based on Tanpura tuning — four strings tuned to SA, PA, SA (upper octave), and a detuned SA for organic chorus. The system uses additive synthesis, LFO-based pitch modulation, bandpass filtering, and stereo imaging to simulate the resonant body of a plucked string instrument in real time.
+Tarini generates a continuous, harmonically rich drone based on Tanpura tuning — four voices tuned to SA, PA, SA (upper octave), and a detuned SA for organic chorus. The system uses additive synthesis, LFO-based pitch modulation, bandpass filtering, and stereo imaging to simulate the resonant body of a plucked string instrument in real time.
 
 The architecture is designed to be portable, efficient, and scalable — qualities directly applicable to embedded audio systems running on ARM Cortex platforms with tight latency and memory budgets.
 
@@ -21,51 +21,63 @@ The architecture is designed to be portable, efficient, and scalable — qualiti
 The core audio engine (`DroneVoice`) implements:
 
 - **Additive synthesis** — fundamental plus harmonic partials (2nd and 3rd harmonics) modelling the overtone structure of a plucked string
-- **LFO pitch modulation** — subtle sinusoidal drift simulating natural string intonation variation
-- **State Variable TPT Filter** (`juce::dsp::StateVariableTPTFilter`) — bandpass filtered at 900Hz for body resonance simulation
-- **Stereo imaging** — per-string left/right gain matrix to simulate the physical spread of a multi-string instrument
+- **Sample-rate-independent LFO modulation** — subtle sinusoidal drift (~0.1 Hz) simulating natural string intonation variation, correctly derived from `sampleRate` at `prepareToPlay` time
+- **State Variable TPT Filter** (`juce::dsp::StateVariableTPTFilter`) — bandpass filtered at 900 Hz for body resonance simulation. TPT topology chosen for numerical stability at embedded-target sample rates
+- **Stereo imaging** — per-voice left/right gain matrix to simulate the physical spread of a multi-string instrument
 
-All DSP runs inside the JUCE `getNextAudioBlock` callback, respecting real-time audio thread constraints — no heap allocation, no blocking calls, no locks in the hot path.
+All DSP runs inside the JUCE `processBlock` callback, respecting real-time audio thread constraints — no heap allocation, no blocking calls, no locks in the hot path. All resources are pre-allocated in `prepareToPlay`.
+
+### Parameter management
+
+Parameters are managed via `juce::AudioProcessorValueTreeState` (APVTS), providing:
+- Thread-safe atomic parameter reads from the audio thread
+- Automatic DAW state save/recall (`getStateInformation` / `setStateInformation`)
+- UI binding via `SliderAttachment` — no manual listener boilerplate
 
 ### Tuning system
 
 ```
-String 1:  SA  — tonic (fundamental)
-String 2:  PA  — perfect fifth (tonic × 1.5)
-String 3:  SA' — upper octave (tonic × 2.0)
-String 4:  SA' — upper octave + 1% detune (tonic × 2.0 × 1.01)
+Voice 1:  SA  — tonic (fundamental)
+Voice 2:  PA  — perfect fifth (tonic × 1.5)
+Voice 3:  SA' — upper octave (tonic × 2.0)
+Voice 4:  SA' — upper octave + 1% detune (tonic × 2.0 × 1.01)
 ```
 
-This mirrors the authentic Tanpura tuning system, which produces the characteristic *jiva* (shimmer) through interference patterns between the detuned upper strings.
+This mirrors the authentic Tanpura tuning system, producing the characteristic *jiva* (shimmer) through interference patterns between the detuned upper voices.
 
 ---
 
 ## Architecture
 
 ```
-tarini/
+Tarini/
 │
+├── CMakeLists.txt                 ← CMake build configuration (Standalone + VST3)
+├── CMakeUserPresets.json          ← Local build preset (Ninja + MSVC, not committed)
 ├── README.md
 ├── LICENSE
 │
-├── Theory Files/
-│   ├── Doctrine of Shruti.txt
-│   ├── Raga and Timings.xlsx
-│   ├── Research Links
-│   ├── Shruti-Nidarshanam-Sarana Chatushtaya.pdf
-│   ├── Shruti-Veena-Swara-Sthapana.pdf
-│   └── The-Doctrine-of-Shruti-in-Indian-Music.pdf
+├── Source/
+│   ├── PluginProcessor.h/.cpp     ← AudioProcessor: DSP, APVTS, plugin lifecycle
+│   ├── PluginEditor.h/.cpp        ← AudioProcessorEditor: UI, SliderAttachments
+│   └── DroneVoice.h/.cpp          ← Isolated DSP voice: additive synth + filter + LFO
 │
-└── Source/                        ← Stage 1 JUCE implementation (in progress)
-│   ├── Main.cpp
-│   ├── MainComponent.h/.cpp
-│   ├── DroneVoice.h/.cpp
-│   └── Tarini.jucer
+└── Theory Files/
+    ├── Doctrine of Shruti.txt
+    ├── Raga and Timings.xlsx
+    ├── Research Links
+    ├── Shruti-Nidarshanam-Sarana Chatushtaya.pdf
+    ├── Shruti-Veena-Swara-Sthapana.pdf
+    └── The-Doctrine-of-Shruti-in-Indian-Music.pdf
 ```
 
-The `Theory/` directory contains the primary source material underpinning Tarini's musical architecture — classical Sanskrit treatises and sruti research that inform the tuning systems, harmonic decisions, and therapeutic application layer. This is not background reading; it is the design specification.
+The plugin follows the standard JUCE AudioProcessor / AudioProcessorEditor split:
 
-The `DroneVoice` DSP class is intentionally isolated — stateless beyond its own phase accumulators — designed from the outset for portability to future embedded audio targets, MATLAB prototyping, or a VST plugin target.
+- **`TariniAudioProcessor`** — owns all DSP state, parameters (APVTS), and plugin lifecycle. Lives on both the audio thread (`processBlock`) and the message thread (state management).
+- **`TariniEditor`** — owns all UI components. Lives exclusively on the message thread. Communicates with the processor only via APVTS `SliderAttachment` — never touches DSP state directly.
+- **`DroneVoice`** — a self-contained mono DSP voice. Stateless beyond its own phase accumulators. Intentionally isolated for portability to future embedded or MATLAB targets.
+
+The `Theory Files/` directory contains the primary source material underpinning Tarini's musical architecture — classical Sanskrit treatises and sruti research that inform the tuning systems, harmonic decisions, and therapeutic application layer. This is not background reading; it is the design specification.
 
 ---
 
@@ -73,13 +85,13 @@ The `DroneVoice` DSP class is intentionally isolated — stateless beyond its ow
 
 | Technology | Usage |
 |---|---|
-| C++ (modern) | Core audio engine and application logic |
-| JUCE Framework | Real-time audio I/O, DSP primitives, GUI |
+| C++17 | Core audio engine and application logic |
+| JUCE Framework | Real-time audio I/O, DSP primitives, GUI, plugin infrastructure |
+| CMake 3.22+ | Build system — Standalone and VST3 targets |
+| Ninja | Build backend (fast, generator-agnostic) |
+| MSVC (VS 2022+) | Windows compiler |
+| Git / GitHub | Version control |
 | Python | Data analysis, musical principle extraction from source texts |
-| GPT-4 | Automated analysis of Sangita Ratnakara and Natya Shastra |
-| Docker | Containerisation for consistent build environments |
-| CMake | Build system (roadmap) |
-| Git | Version control |
 
 ---
 
@@ -87,28 +99,86 @@ The `DroneVoice` DSP class is intentionally isolated — stateless beyond its ow
 
 ### Requirements
 
-- JUCE 7.x or above
-- C++17 compatible compiler (MSVC, Clang, GCC)
-- Projucer or CMake
+- [JUCE](https://github.com/juce-framework/JUCE) cloned locally (see below)
+- CMake 3.22+
+- Ninja (`winget install Ninja-build.Ninja` on Windows)
+- MSVC — Visual Studio 2022 or Visual Studio Community 2026 with C++ workload
 
 ### Setup
 
 ```bash
-git clone https://github.com/HarryLMoss/tarini.git
-cd tarini
+# Clone JUCE once alongside your projects
+git clone --depth 1 https://github.com/juce-framework/JUCE.git ../JUCE
+
+# Clone Tarini
+git clone https://github.com/HarryLMoss/Tarini.git
+cd Tarini
 ```
 
-Open `Tarini.jucer` in Projucer, export to your target IDE, and build. Targets: Windows, macOS, Linux.
+### Configure
+
+Create `CMakeUserPresets.json` in the repo root (this file is gitignored — each developer has their own):
+
+```json
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "default",
+            "displayName": "Default (Ninja + MSVC)",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl",
+                "JUCE_DIR": "../JUCE"
+            }
+        }
+    ]
+}
+```
+
+Adjust `JUCE_DIR` to wherever you cloned JUCE.
+
+### Build
+
+Open a **Developer PowerShell for Visual Studio** (required so `cl.exe` is on PATH), then:
+
+```powershell
+cmake --preset default
+cmake --build build
+```
+
+First build takes 5–10 minutes (JUCE compiles all modules). Subsequent builds are seconds.
+
+### Run
+
+**Standalone app:**
+```powershell
+.\build\Tarini_artefacts\Debug\Standalone\Tarini.exe
+```
+
+**VST3** (copy to your system VST3 folder for DAW use):
+```powershell
+xcopy /E /I /Y "build\Tarini_artefacts\Debug\VST3\Tarini.vst3" "%CommonProgramFiles%\VST3\Tarini.vst3"
+```
 
 ---
 
 ## Roadmap
 
 ### Stage 1 — Real-time DSP foundation *(current)*
-- Additive synthesis drone engine in JUCE C++
-- LFO modulation and bandpass body resonance simulation
-- Stereo imaging across four string voices
-- Desktop GUI with tonic frequency and master gain control
+- [x] Additive synthesis drone engine in JUCE C++
+- [x] Sample-rate-independent LFO modulation and bandpass body resonance
+- [x] Stereo imaging across four string voices
+- [x] Migrated from legacy Projucer to modern CMake build system
+- [x] Migrated from AudioAppComponent to AudioProcessor + APVTS plugin architecture
+- [x] Standalone and VST3 build targets
+- [x] Thread-safe parameter management via AudioProcessorValueTreeState
+- [ ] GoogleTest unit test suite
+- [ ] GitHub Actions CI
+- [ ] Preset save/load with JSON format
 
 ### Stage 2 — Musical intelligence layer
 - Raga-specific tuning systems (just intonation, sruti variants per raga)
@@ -117,9 +187,9 @@ Open `Tarini.jucer` in Projucer, export to your target IDE, and build. Targets: 
 - Microtonal intonation and raga time-of-day scheduling
 
 ### Stage 3 — Embedded and plugin targets
-- DSP core ported to bare-metal Embedded C for ARM Cortex-M/A
+- DSP core ported to bare-metal Embedded C for ARM Cortex-M4/M7
 - Fixed-point arithmetic optimisation for microcontroller deployment
-- VST3 / AU plugin build via JUCE plugin architecture
+- AU plugin build (macOS)
 - SIMD optimisation, lock-free parameter queues, USB/SPI/I2C peripheral integration
 - Standalone hardware instrument — no laptop, stage and studio ready
 
@@ -138,6 +208,35 @@ Open `Tarini.jucer` in Projucer, export to your target IDE, and build. Targets: 
 
 ---
 
+## Relevance to Embedded Audio Engineering
+
+The Tarini DSP core is explicitly designed with embedded constraints in mind:
+
+- **No dynamic allocation in the audio path** — all voices pre-allocated and prepared at `prepareToPlay`, never in `processBlock`
+- **Isolated DSP voice architecture** — `DroneVoice` is intentionally self-contained for future embedded deployment
+- **TPT filter design** — Topology-Preserving Transform chosen for numerical stability at low sample rates directly relevant to embedded targets running at 48 kHz or below
+- **Phase accumulator design** — efficient, portable, no lookup tables required
+- **Sample-rate-independent modulation** — LFO increment computed once at prepare time, correct across all sample rates
+
+Future stages will target ARM Cortex-M4/M7 platforms, implementing the same algorithms under fixed-point arithmetic with profiled cycle budgets.
+
+---
+
+## Relevance to Audio Plugin Development
+
+The JUCE-based implementation demonstrates:
+
+- Real-time audio callback design (`processBlock`) with correct thread discipline
+- Full `AudioProcessor` / `AudioProcessorEditor` architectural separation
+- `AudioProcessorValueTreeState` (APVTS) — thread-safe parameter management, DAW automation, state serialisation
+- `juce::dsp::ProcessSpec` initialisation and `prepare()` / `releaseResources()` lifecycle
+- `juce::dsp::StateVariableTPTFilter` — professional DSP primitive usage
+- `SliderAttachment` binding — UI to parameter without manual listeners
+- CMake-based JUCE build: `juce_add_plugin`, `juce_generate_juce_header`, multi-format targets
+- Standalone and VST3 format builds from a single codebase
+
+---
+
 ## Musical Foundation
 
 Tarini draws on two foundational texts of Indian classical music theory:
@@ -150,38 +249,11 @@ These principles inform the tuning systems, harmonic choices, and therapeutic ap
 
 ---
 
-## Relevance to Embedded Audio Engineering
-
-The Tarini DSP core is explicitly designed with embedded constraints in mind:
-
-- **No dynamic allocation in the audio path** — all voices pre-allocated and prepared at `prepareToPlay`
-- **Isolated DSP voice architecture** — `DroneVoice` is intentionally isolated for future embedded deployment
-- **State variable filter implementation** — TPT (Topology-Preserving Transform) design chosen for its numerical stability at low sample rates, directly relevant to embedded targets running at 48kHz or below
-- **Phase accumulator design** — efficient, portable, no lookup tables required
-
-Future stages will target ARM Cortex-M4/M7 platforms, implementing the same algorithms under fixed-point arithmetic with profiled cycle budgets — the core engineering challenge of embedded audio DSP.
-
----
-
-## Relevance to Audio Plugin Development
-
-The JUCE-based desktop implementation demonstrates:
-
-- Real-time audio callback design (`getNextAudioBlock`)
-- `juce::dsp::ProcessSpec` initialisation and `prepare()` lifecycle
-- `juce::dsp::StateVariableTPTFilter` — professional DSP primitive usage
-- Slider listener pattern and thread-safe parameter updates
-- Cross-platform GUI layout (`paint`, `resized`)
-- Scalable towards VST3 / AU plugin architecture in Stage 3
-
----
-
 ## Contributing
 
 Contributions welcome. Please follow this workflow:
 
 ```bash
-# Fork the repository
 git checkout -b feature/your-feature
 git commit -m 'Add feature'
 git push origin feature/your-feature
@@ -203,12 +275,10 @@ GNU General Public License v3.0 — see `LICENSE` for details.
 - **Narada** — Naradiya Shiksha
 - **The JUCE Framework Team** — real-time audio infrastructure
 - **The Python and C++ open source communities**
-- **OpenAI** — GPT models used in musical text analysis
 
 ---
 
 ## Contact
 
 Enquiries and collaboration: harrymoss33@gmail.com
-
 Other audio and DSP projects: [github.com/HarryLMoss](https://github.com/HarryLMoss)
