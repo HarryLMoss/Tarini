@@ -281,4 +281,5 @@ GNU General Public License v3.0 — see `LICENSE` for details.
 ## Contact
 
 Enquiries and collaboration: harrymoss33@gmail.com
+
 Other audio and DSP projects: [github.com/HarryLMoss](https://github.com/HarryLMoss)
