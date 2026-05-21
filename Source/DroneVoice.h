@@ -19,11 +19,11 @@
 class DroneVoice
 {
 public:
-    void prepare(double sampleRate);
+    DroneVoice() = default;
 
+    void prepare(double sampleRate);
     void setFrequency(float f);
     void setGain(float g);
-
     float process();
 
 private:
