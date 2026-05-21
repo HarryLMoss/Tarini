@@ -69,6 +69,6 @@ float DroneVoice::process()
 
     s += 0.3f * std::sin(phase * 2.0f);
     s += 0.15f * std::sin(phase * 3.0f);
-
-    return filter.processSample(s) * gain;
+    
+    return filter.processSample(0, s) * gain;
 }
