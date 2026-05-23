@@ -54,6 +54,7 @@ Tarini/
 │
 ├── CMakeLists.txt                 ← CMake build configuration (Standalone + VST3)
 ├── CMakeUserPresets.json          ← Local build preset (Ninja + MSVC, not committed)
+├── .gitignore                     ← Excludes build/ artefacts and IDE files from version control
 ├── README.md
 ├── LICENSE
 │
@@ -176,6 +177,7 @@ xcopy /E /I /Y "build\Tarini_artefacts\Debug\VST3\Tarini.vst3" "%CommonProgramFi
 - [x] Migrated from AudioAppComponent to AudioProcessor + APVTS plugin architecture
 - [x] Standalone and VST3 build targets
 - [x] Thread-safe parameter management via AudioProcessorValueTreeState
+- [x] `.gitignore` excluding build artefacts and IDE files
 - [ ] GoogleTest unit test suite
 - [ ] GitHub Actions CI
 - [ ] Preset save/load with JSON format
